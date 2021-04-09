@@ -51,9 +51,11 @@ if [ -z "$DOCKER_IMAGE" ] && [ -n "$ROS_DISTRO" ] ; then
         # Clear apt-cache to reduce image size
         rm -rf /var/lib/apt/lists/*
 EOF
-  sudo docker buildx build --quiet --file ../Dockerfile --tag ci:base ..
-  export DOCKER_IMAGE=ci:base
-  export DOCKER_PULL=false
+  export DOCKER_IMAGE="rhaschke/ci:$TARGET_REPO_NAME.base"
+  sudo docker buildx build --quiet --file ../Dockerfile --tag "$DOCKER_IMAGE" \
+    --cache-from=type=registry,ref="$DOCKER_IMAGE" \
+    --cache-to=type=inline  \
+    ..
 fi
 
 env "$@" bash "$DIR_THIS/../industrial_ci/src/ci_main.sh"
