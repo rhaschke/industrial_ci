@@ -17,6 +17,8 @@ jobs:
   ici:
     env:
       TRACE: true
+      CLANG_TIDY_ARGS: -quiet -export-fixes ${{ github.workspace }}/.work/clang-tidy-fixes.yml
+      BASEDIR: ${{ github.workspace }}/.work
     strategy:
       fail-fast: false
       matrix:
@@ -98,6 +100,11 @@ jobs:
       - uses: './'
         with:
           config: ${{toJSON(matrix)}}
+      - name: Process clang-tidy warnings
+        if: always() && matrix.CLANG_TIDY
+        uses: asarium/clang-tidy-action@v1
+        with:
+          fixesFile: ${{ env.BASEDIR }}/clang-tidy-fixes.yml
 
   outputs:
     strategy:
