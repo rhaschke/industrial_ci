@@ -34,8 +34,15 @@ jobs:
       - uses: './'
         with:
           config: ${{toJSON(matrix)}}
-      - name: Process clang-tidy warnings
-        if: always() && matrix.CLANG_TIDY
-        uses: asarium/clang-tidy-action@v1
+      - name: Process clang-tidy results
+        if: always() && matrix.CLANG_TIDY && github.event_name == 'pull_request'
+        uses: platisd/clang-tidy-pr-comments@master
         with:
-          fixesFile: ${{ env.BASEDIR }}/clang-tidy-fixes.yml
+          # The GitHub token (or a personal access token)
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # The path to the clang-tidy fixes generated previously
+          clang_tidy_fixes: ${{ env.BASEDIR }}/clang-tidy-fixes.yml
+          # Request changes in case warnings are found
+          request_changes: true
+          # Set the number of comments per review to avoid GitHub API timeouts for heavily loaded PRs
+          suggestions_per_comment: 10
