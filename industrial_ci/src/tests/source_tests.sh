@@ -86,6 +86,7 @@ function run_clang_tidy_check {
     ici_parse_env_array clang_tidy_args CLANG_TIDY_ARGS
 
     ici_step "install_clang_tidy" ici_install_pkgs_for_command clang-tidy clang-tidy "$(apt-cache depends --recurse --important clang  | grep "^libclang-common-.*")"
+    ici_install_pkgs_for_command clang-apply-replacements clang-tools
     if [ -n "$CLANG_TIDY_BASE_REF" ]; then
         ici_setup_git_client
     fi
