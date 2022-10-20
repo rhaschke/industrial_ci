@@ -92,6 +92,12 @@ function run_clang_tidy_check {
 
     ici_hook "before_clang_tidy_checks"
 
+    # TODO: In order to merge fixes from several packages:
+    # - parse clang_tidy_args for -export-fixes <filename>, replace filename with some temporary file
+    # - run clang-tidy, writing fixes to this temporary file
+    # - merge yaml files into the final one:
+    #   https://stackoverflow.com/questions/25630633/merging-yaml-config-files-recursively-with-bash
+    #   https://mikefarah.gitbook.io/yq/v/v3.x/commands/merge
     while read -r db; do
         run_clang_tidy "$target_ws/src" warnings errors "$db" "${clang_tidy_args[@]}"
     done < <(find "$target_ws/build" -mindepth 2 -name compile_commands.json)  # -mindepth 2, because colcon puts a compile_commands.json into the build folder
