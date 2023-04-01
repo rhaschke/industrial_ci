@@ -52,6 +52,7 @@ function prepare_prerelease_workspaces() {
   local workspace=$1
   local reponame=$2
   local targetname=$3
+  echo "ici_prepare_sourcespace $workspace/ws/src/ ${ws_upstream[@]} ${ws_target[@]}"
   ici_with_ws "$workspace/ws" ici_prepare_sourcespace "$workspace/ws/src/" "${ws_upstream[@]}" "${ws_target[@]}"
 
   if ! [ -d "$workspace/ws/src/$reponame" ]; then
