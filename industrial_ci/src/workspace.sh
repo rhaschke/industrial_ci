@@ -330,9 +330,6 @@ function ici_setup_rosdep {
         ici_cmd ici_quiet ici_asroot rosdep init
     fi
     update_opts=()
-    if [ -z "${ROSDISTRO_INDEX_URL:-}" ]; then
-        update_opts+=(--rosdistro "$ROS_DISTRO")
-    fi
 
     if [ -n "$ROSDISTRO_INDEX_VERSION" ]; then
         if [ -z "${ROSDISTRO_INDEX_URL:-}" ]; then
