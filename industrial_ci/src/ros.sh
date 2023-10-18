@@ -64,6 +64,15 @@ function _set_ros_defaults {
         _ros1_defaults "focal"
         export ROS_PYTHON_VERSION=3
         ;;
+    "one")
+        _ros1_defaults "jammy"
+        export ROS_PYTHON_VERSION=3
+        ;;
+    "jammy"|"noble")
+        _ros1_defaults "${ROS_DISTRO}"
+        export ROS_PYTHON_VERSION=3
+        export ROS_DISTRO="one"
+        ;;
     "ardent")
         _ros2_defaults "xenial"
         _ros_is_eol "dashing/2021-06-10"
