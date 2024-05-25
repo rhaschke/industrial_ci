@@ -64,6 +64,11 @@ function _set_ros_defaults {
         _ros1_defaults "focal"
         export ROS_PYTHON_VERSION=3
         ;;
+    "one")
+        export BUILDER=${BUILDER:-colcon}
+        export ROS_PYTHON_VERSION=3
+        _ros1_defaults "jammy"
+        ;;
     "ardent")
         _ros2_defaults "xenial"
         _ros_is_eol "dashing/2021-06-10"

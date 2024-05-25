@@ -330,9 +330,6 @@ function ici_setup_rosdep {
         ici_cmd ici_quiet ici_asroot rosdep init
     fi
     update_opts=()
-    if [ -z "${ROSDISTRO_INDEX_URL:-}" ]; then
-        update_opts+=(--rosdistro "$ROS_DISTRO")
-    fi
 
     if [ -n "$ROSDISTRO_INDEX_VERSION" ]; then
         if [ -z "${ROSDISTRO_INDEX_URL:-}" ]; then
@@ -393,7 +390,7 @@ function ici_build_workspace {
     fi
 
     ici_step "setup_${name}_workspace" ici_prepare_sourcespace "$ws/src" "${sources[@]}"
-    ici_step "install_${name}_dependencies" ici_install_dependencies "$extend" "$ROSDEP_SKIP_KEYS" "$ws/src"
+    ici_step "install_${name}_dependencies" ici_install_dependencies "$extend" "$ROSDEP_SKIP_KEYS" "$ws/src" "${ROSDEP_SOURCE_FOLDERS[@]}"
     ici_step "build_${name}_workspace" builder_run_build "$extend" "$ws" "${args[@]}"
 }
 
