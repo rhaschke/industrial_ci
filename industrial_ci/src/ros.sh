@@ -64,6 +64,19 @@ function _set_ros_defaults {
         _ros1_defaults "focal"
         export ROS_PYTHON_VERSION=3
         ;;
+    "one")
+        _ros1_defaults "jammy"
+        export ROS_PYTHON_VERSION=3
+        export ROS_REPOSITORY_PATH="http://ros.packages.techfak.net"
+        export ROS_REPOSITORY_KEY="${ROS_REPOSITORY_PATH}/gpg.key"
+        ;;
+    "jammy"|"noble")
+        _ros1_defaults "${ROS_DISTRO}"
+        export ROS_PYTHON_VERSION=3
+        export ROS_DISTRO="one"
+        export ROS_REPOSITORY_PATH="http://ros.packages.techfak.net"
+        export ROS_REPOSITORY_KEY="${ROS_REPOSITORY_PATH}/gpg.key"
+        ;;
     "ardent")
         _ros2_defaults "xenial"
         _ros_is_eol "dashing/2021-06-10"
