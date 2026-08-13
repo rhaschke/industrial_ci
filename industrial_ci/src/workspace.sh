@@ -351,9 +351,6 @@ function ici_setup_rosdep {
         ici_cmd ici_quiet ici_asroot rosdep init
     fi
     update_opts=()
-    if [ -z "${ROSDISTRO_INDEX_URL:-}" ]; then
-        update_opts+=(--rosdistro "$ROS_DISTRO")
-    fi
 
     if [ -n "$ROSDISTRO_INDEX_VERSION" ]; then
         if [ -z "${ROSDISTRO_INDEX_URL:-}" ]; then
@@ -364,6 +361,12 @@ function ici_setup_rosdep {
 
     if [ "$ROS_VERSION_EOL" = true ]; then
         update_opts+=(--include-eol-distros)
+    fi
+
+    if [ "$ROS_DISTRO" = "one" ] ; then
+        echo "yaml https://ros.packages.techfak.net/ros-one.yaml ubuntu" | ici_asroot tee /etc/ros/rosdep/sources.list.d/1-ros-one.list
+    elif [ -z "${ROSDISTRO_INDEX_URL:-}" ]; then
+        update_opts+=(--rosdistro "$ROS_DISTRO")
     fi
 
     ici_retry 2 ici_cmd ici_quiet rosdep update "${update_opts[@]}"
